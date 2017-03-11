@@ -1,0 +1,28 @@
+body{
+	background: black;
+	font-family: Arial, Helvetica, sans-serif;
+}
+
+table, th, td{
+	color: white;
+	border: 1px solid white;
+	border-collapse: collapse;
+	padding: 10px;
+	background: #666666;
+}
+
+td img { 
+  vertical-align: top;
+}
+
+#pricetable{
+	margin: 0 auto;
+}
+
+.red{
+	color: #FF3333;
+}
+
+.green{
+	color: #33FF41;
+}
