@@ -1,5 +1,6 @@
 body{
 	background: black;
+	margin: 0;
 	font-family: Arial, Helvetica, sans-serif;
 }
 
@@ -8,11 +9,14 @@ table, th, td{
 	border: 1px solid white;
 	border-collapse: collapse;
 	padding: 10px;
-	background: #666666;
+	background: #404040;
 }
 
 td img { 
   vertical-align: top;
+  background: white;
+  padding: 2px;
+  border-radius: 1px;
 }
 
 #pricetable{
