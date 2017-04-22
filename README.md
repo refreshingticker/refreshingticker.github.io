@@ -1,7 +1,5 @@
 # refreshingticker.github.io
 
-add "$rows=" to the end of the url to specify how many coins you want to show up.
+auto refreshing ticker
 
-page refreshes every 5 minutes.
-
-data from www.coinmarketcap.com
+data from poloniex
