@@ -92,7 +92,7 @@ $(document).ready(function() {
               obj[res[i] + "-" + prefix[0]] = "#FFAAAA"; //red
               toUpdate.push(obj);
             }
-            $("#" + res[i] + "-" + prefix[0]).html("$" + parseFloat(data[res[i]].last).toFixed(2));
+            $("#" + res[i] + "-" + prefix[0]).html("$" + btcPrice);
           }else{
             if(parseFloat($("#" + res[i] + "-" + prefix[0]).text()) < parseFloat(parseFloat(data[res[i]].last).toFixed(8))){
               var obj = {};
