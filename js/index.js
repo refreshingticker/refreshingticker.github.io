@@ -1,9 +1,6 @@
 $(document).ready(function() {
   var res = [];
   var btcPrice = 0;
-  $.getJSON('https://api.coinbase.com/v2/prices/BTC-USD/spot', function(response){
-    btcPrice = parseFloat(response.data.amount);
-  });
 
   $.getJSON('https://poloniex.com/public?command=returnTicker', function(data){
     if(localStorage.length == 0){
@@ -76,6 +73,12 @@ $(document).ready(function() {
   });
 
   setInterval(function(){
+
+    $.getJSON('https://api.coinbase.com/v2/prices/BTC-USD/spot', function(response){
+      btcPrice = parseFloat(response.data.amount);
+      console.log("current bitcoin price: ", btcPrice);
+    });
+
       $.getJSON('https://poloniex.com/public?command=returnTicker', function(data){
         var toUpdate = [];
         for(var i = 0; i < res.length; i++){
