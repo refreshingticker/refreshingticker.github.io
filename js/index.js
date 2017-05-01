@@ -1,5 +1,10 @@
 $(document).ready(function() {
   var res = [];
+  var btcPrice = 0;
+  $.getJSON('https://api.coinbase.com/v2/prices/BTC-USD/spot', function(response){
+    btcPrice = parseFloat(response.data.amount);
+  });
+
   $.getJSON('https://poloniex.com/public?command=returnTicker', function(data){
     if(localStorage.length == 0){
       res.push("USDT_BTC");
@@ -29,10 +34,10 @@ $(document).ready(function() {
 
     for(var i = 0; i < res.length; i++){
       if(res[i].startsWith("USDT")){
-        $("#outTable").append("<tr><td class='mdl-data-table__cell--non-numeric'>" + res[i] + "</td><td>n/a</td><td id='" + res[i] + "-USDT" + "'>$" + parseFloat(data[res[i]].last).toFixed(2) + "</td>");
+        $("#outTable").append("<tr><td class='mdl-data-table__cell--non-numeric'>" + res[i] + "</td><td>n/a</td><td id='" + res[i] + "-USDT" + "'>$" + btcPrice + "</td>");
       }else{
         var prefix = res[i].split("_");
-        $("#outTable").append("<tr><td class='mdl-data-table__cell--non-numeric'>" + res[i] + "</td><td id='" + res[i] + "-" + prefix[0] + "'>" + parseFloat(data[res[i]].last).toFixed(8) + " " + prefix[0] + "</td><td id='" + res[i] + "-USD" + "'>$" + (parseFloat(data[res[i]].last) * parseFloat(data['USDT_' + prefix[0]].last)).toFixed(5) + "</td>");
+        $("#outTable").append("<tr><td class='mdl-data-table__cell--non-numeric'>" + res[i] + "</td><td id='" + res[i] + "-" + prefix[0] + "'>" + parseFloat(data[res[i]].last).toFixed(8) + " " + prefix[0] + "</td><td id='" + res[i] + "-USD" + "'>$" + (parseFloat(data[res[i]].last) * btcPrice).toFixed(5) + "</td>");
       }
     }
   });
@@ -77,12 +82,12 @@ $(document).ready(function() {
           var prefix = res[i].split("_");
 
           if(res[i].startsWith("USDT")){
-            if(parseFloat($("#" + res[i] + "-" + prefix[0]).text().split("$")[1]) < parseFloat(parseFloat(data[res[i]].last).toFixed(2))){
+            if(parseFloat($("#" + res[i] + "-" + prefix[0]).text().split("$")[1]) < btcPrice){
               var obj = {};
               obj[res[i] + "-" + prefix[0]] = "#AAFFAA"; //green
               toUpdate.push(obj);
             }
-            if(parseFloat($("#" + res[i] + "-" + prefix[0]).text().split("$")[1]) > parseFloat(parseFloat(data[res[i]].last).toFixed(2))){
+            if(parseFloat($("#" + res[i] + "-" + prefix[0]).text().split("$")[1]) > btcPrice){
               var obj = {};
               obj[res[i] + "-" + prefix[0]] = "#FFAAAA"; //red
               toUpdate.push(obj);
@@ -99,18 +104,18 @@ $(document).ready(function() {
               obj[res[i] + "-" + prefix[0]] = "#FFAAAA"; //red
               toUpdate.push(obj);
             }
-            if(parseFloat($("#" + res[i] + "-USD").text().split("$")[1]) < parseFloat((parseFloat(data["USDT_BTC"].last) * parseFloat(data[res[i]].last).toFixed(8)).toFixed(5))){
+            if(parseFloat($("#" + res[i] + "-USD").text().split("$")[1]) < parseFloat((parseFloat(btcPrice) * parseFloat(data[res[i]].last).toFixed(8)).toFixed(5))){
               var obj = {};
               obj[res[i] + "-USD"] = "#AAFFAA"; //green
               toUpdate.push(obj);
             }
-            if(parseFloat($("#" + res[i] + "-USD").text().split("$")[1]) > parseFloat((parseFloat(data["USDT_BTC"].last) * parseFloat(data[res[i]].last).toFixed(8)).toFixed(5))){
+            if(parseFloat($("#" + res[i] + "-USD").text().split("$")[1]) > parseFloat((parseFloat(btcPrice) * parseFloat(data[res[i]].last).toFixed(8)).toFixed(5))){
               var obj = {};
               obj[res[i] + "-USD"] = "#FFAAAA"; //red
               toUpdate.push(obj);
             }
             $("#" + res[i] + "-" + prefix[0]).html(parseFloat(data[res[i]].last).toFixed(8) + " " + prefix[0]);
-            $("#" + res[i] + "-USD").html("$" + (parseFloat(data[res[i]].last) * parseFloat(data['USDT_' + prefix[0]].last)).toFixed(5));
+            $("#" + res[i] + "-USD").html("$" + (parseFloat(data[res[i]].last) * btcPrice).toFixed(5));
           }
         }
         for(var i = 0; i < toUpdate.length; i++){
